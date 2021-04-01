@@ -45,7 +45,7 @@ struct sockaddr_in这个结构体用来处理网络通信的地址，头文件:
 #include<arpa/inet.h>。<br>
 ```
 struct sockaddr_in结构体：<br>
-![](img/sockaddr_in.png)
+![](img/sockaddr_in.png)<br>
 关于地址的指定：<br>
 >任意IP地址serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);<br>
 >指定IP地址serv_addr.sin_addr.s_addr =inet_addr("IP");<br>
