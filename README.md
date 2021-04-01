@@ -9,8 +9,7 @@ TCP提供的两种通讯机制：流stream和数据包datagram，所以套接字
 1）流套接字：SOCK_STREAM指定，SOCK_STREAM是表示面向连接的数据传输方式。提供有序、可靠、双向字节流连接。<br>
 2）数据报套接字：SOCK_DGRAM指定，SOCK_DGRAM是表示无连接的数据传输方式。不需要建立维持一个连接，UDP/IP协议实现。发送长度有限。UDP协议是不可靠的，但是速度快。<br>
 ## 二、socket通讯过程
-![](https://github.com/raincoco/SocketBasics/tree/main/img/sockaddr_in.png)
-
+![](img/socket通讯过程.jpg)
 ### 1、使用函数
 头文件：
 ```c++
@@ -45,6 +44,8 @@ struct sockaddr_in这个结构体用来处理网络通信的地址，头文件:
 ```c++
 #include<arpa/inet.h>。<br>
 ```
+struct sockaddr_in结构体：<br>
+![](img/sockaddr_in.png)
 关于地址的指定：<br>
 >任意IP地址serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);<br>
 >指定IP地址serv_addr.sin_addr.s_addr =inet_addr("IP");<br>
