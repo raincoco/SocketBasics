@@ -138,4 +138,83 @@ size_t recv(int sockfd,  void* buf, size_t len,  int flag);
 ```c++
 close(int sockfd);
 ```
+### 2、服务/客户端函数调用流程
+服务端函数调用流程：socket->bind->listen->accept->recv/send->close<br>
+客户端函数调用流程：socket->connect->send/recv->close<br>
 
+## 三、网络字节与主机字节顺序
+### 1、字节顺序
+网络字节顺序（NBO，Network Byte Order）：<br>
+按从高到低的顺序存储，在网络上使用统一的网络字节顺序，可以避免兼容性问题。<br>
+主机字节顺序（HBO，Host Byte Order）：<br>
+不同的机器HBO不相同，与CPU设计有关。<br>
+### 2、大端小端
+不同的计算机结构有时使用不同的字节顺序存储数据。<br>
+例如，基于Intel的计算机存储数据的顺序与Macintosh(Motorola)计算机就是相反的。<br>
+
+Intel字节顺序称为“Little-Endian”（小端）。<br>
+网络上采用标准是“Big-Endian”（大端）。<br>
+
+| | |
+| ---- | ---- |
+| Big-Endian（大端）   | 一个Word中的高位的Byte放在内存中这个Word区域的低地址处。|
+| Little-Endian（小端）| 一个Word中的低位的Byte放在内存中这个Word区域的低地址处。|
+
+详细解释：<br>
+不同的CPU有不同的字节序类型，这些字节序是指整数在内存中保存的顺序，这个叫做主机序（主机字节顺序）。<br>
+
+| | |
+| ---- | ---- |
+| Big-Endian（大端）    | 将高序字节存储在起始地址。 |
+| Little-Endian（小端） | 将低序字节存储在起始地址。 |
+
+
+| 函数 | 功能 |
+| ---- | ---- |
+| htons() | 把unsigned short类型从主机序转换到网络序。 |
+| htonl() | 把unsigned long类型从主机序转换到网络序。  |
+| ntohs() | 把unsigned short类型从网络序转换到主机序。 |
+| ntohl() | 把unsigned long类型从网络序转换到主机序。  |
+
+## 四、相关函数
+### 1、exit()函数：
+头文件
+```c++
+#include<stdlib.h>
+```
+函数功能：关闭所有文件，终止正在执行的进程。
+```c++
+exit(1); //表示异常退出.这个1是返回给操作系统的。
+exit(0); //表示正常退出。
+exit(x); //（x不为0）都表示异常退出。
+```
+### 2、名字地址转换
+#### 1）gethostbyname()函数
+函数功能：用域名或者主机名获取地址，操作系统提供的库函数。<br>
+函数声明：
+```c++
+struct hostent *gethostbyname(const char *name);
+hostent结构体：
+	struct hostent {
+	      char  *h_name;            /* official name of host（主机的规范名）*/
+	      char **h_aliases;         /* alias list（主机的别名）*/
+	      int    h_addrtype;        /* host address type（主机ip地址的类型）*/
+	      int    h_length;          /* length of address（主机ip地址的长度）*/
+	      char **h_addr_list;       /* list of addresses（主机的ip地址）*/
+	}
+```
+返回值：成功，返回非空指针指向的hostent结构；失败，返回NULL指针。<br>
+#### 2）gethostbyaddr()函数<br>
+函数功能：用用地址获取主机名或域名，操作系统提供的库函数。<br>
+函数声明：
+```c++
+struct hostent *gethostbyaddr(const char *addr, size_t len, int family);
+```
+返回值：成功，返回非空指针指向的hostent结构；失败，返回NULL指针。<br>
+### 3、地址格式
+inet_ntoa()函数<br>
+函数功能：将网络地址转换成“.”点隔的字符串格式。<br>
+函数声明：
+```c++
+char *inet_ntoa (struct in_addr);
+```
